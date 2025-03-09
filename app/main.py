@@ -8,6 +8,7 @@ from app.logs.publishers import publish_error_log, publish_info_log
 
 app = FastStream(broker)
 
+
 @app.after_startup
 async def test_publish():
     await publish_order_created("12345")
@@ -15,6 +16,8 @@ async def test_publish():
     await publish_error_log("Database connection failed")
     await publish_info_log("System started successfully")
 
+
 if __name__ == "__main__":
     import asyncio
+
     asyncio.run(app.run())
