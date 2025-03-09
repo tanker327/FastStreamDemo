@@ -1,0 +1,15 @@
+{
+  "exchanges": {
+    "orders": {"type": "direct"},
+    "orders-topic": {"type": "topic"},
+    "logs": {"type": "topic"}
+  },
+  "queues": {
+    "order-create": {"exchange": "orders", "routing_key": "order.created"},
+    "order-update": {"exchange": "orders", "routing_key": "order.updated"},
+    "order-all": {"exchange": "orders-topic", "routing_key": "order.*"},
+    "error-log": {"exchange": "logs", "routing_key": "error.*"},
+    "info-log": {"exchange": "logs", "routing_key": "info.*"},
+    "all-log": {"exchange": "logs", "routing_key": "*.*"}
+  }
+}
