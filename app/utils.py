@@ -33,10 +33,10 @@ def load_queue_config(config_file: str = "../messaging_config.json") -> tuple[Di
 
     return exchanges, queues
 
-# 加载原始配置
+# Load raw configuration
 exchanges_raw, queues_raw = load_queue_config()
 
-# 通用工厂函数：动态生成类
+# generate dynamic classes
 def create_dynamic_class(name: str, raw_data: Dict, return_type: type) -> type:
     class DynamicClass:
         def __getattr__(self, attr: str) -> return_type:
@@ -52,6 +52,6 @@ def create_dynamic_class(name: str, raw_data: Dict, return_type: type) -> type:
     DynamicClass.__name__ = name
     return DynamicClass
 
-# 动态生成 Exchanges 和 Queues
+# Dynamically generate Exchanges and Queues
 exchanges = create_dynamic_class("Exchanges", exchanges_raw, RabbitExchange)()
 queues = create_dynamic_class("Queues", queues_raw, QueueConfigProtocol)()

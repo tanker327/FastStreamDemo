@@ -1,6 +1,6 @@
 from faststream import FastStream
 from .brokers import broker
-from .utils import queues  # 确保加载配置
+from .utils import queues  # Ensure configuration is loaded
 import app.orders.consumers
 import app.logs.consumers
 from app.orders.publishers import publish_order_created, publish_order_updated
