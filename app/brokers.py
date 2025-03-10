@@ -1,3 +1,4 @@
 from faststream.rabbit import RabbitBroker
 
-broker = RabbitBroker("amqp://guest:guest@rabbitmq:5672/")
+# Create the broker
+broker = RabbitBroker("amqp://guest:guest@localhost:5672/")

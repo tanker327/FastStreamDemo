@@ -1,6 +1,6 @@
 import json
 from typing import Dict, Protocol
-from faststream.rabbit import RabbitExchange, RabbitQueue
+from faststream.rabbit import RabbitExchange, RabbitQueue, ExchangeType
 
 
 class QueueConfigProtocol(Protocol):
@@ -17,13 +17,13 @@ class QueueConfig:
 
 
 def load_queue_config(
-    config_file: str = "../messaging_config.json",
+    config_file: str = "./messaging_config.json",
 ) -> tuple[Dict[str, RabbitExchange], Dict[str, QueueConfig]]:
     with open(config_file, "r") as f:
         config = json.load(f)
 
     exchanges = {
-        name: RabbitExchange(name=name, type=conf["type"])
+        name: RabbitExchange(name=name, type=ExchangeType(conf["type"].lower()))
         for name, conf in config["exchanges"].items()
     }
 
@@ -49,7 +49,8 @@ def create_dynamic_class(name: str, raw_data: Dict, return_type: type) -> type:
         def __getattr__(self, attr: str) -> return_type:
             full_name = attr.replace("_", "-")
             if full_name in raw_data:
-                return raw_data[full_name]
+                value = raw_data[full_name]
+                return value
             available = ", ".join(raw_data.keys())
             raise AttributeError(
                 f"'{name}' has no attribute '{full_name}'. Available options: {available}"
